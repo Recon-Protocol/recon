@@ -1,37 +1,22 @@
 package main
 
 import (
-	"encoding/json"
 	"log"
 	"net/http"
+
+	"github.com/Recon-Protocol/recon/apps/api/internal/config"
+	"github.com/Recon-Protocol/recon/apps/api/internal/handlers"
 )
 
-type HealthResponse struct {
-	Status  string `json:"status"`
-	Service string `json:"service"`
-	Version string `json:"version"`
-}
-
-func healthHandler(w http.ResponseWriter, r *http.Request) {
-	response := HealthResponse{
-		Status:  "ok",
-		Service: "recon-api",
-		Version: "0.1.0",
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-
-	if err := json.NewEncoder(w).Encode(response); err != nil {
-		http.Error(w, "internal server error", http.StatusInternalServerError)
-	}
-}
-
 func main() {
-	http.HandleFunc("/health", healthHandler)
 
-	log.Println("RECON API listening on :8081")
+	cfg := config.Load()
 
-	if err := http.ListenAndServe(":8081", nil); err != nil {
+	http.HandleFunc("/health", handlers.HealthHandler)
+
+	log.Printf("RECON API listening on :%s", cfg.Port)
+
+	if err := http.ListenAndServe(":"+cfg.Port, nil); err != nil {
 		log.Fatal(err)
 	}
 }
