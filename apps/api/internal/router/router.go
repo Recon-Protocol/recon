@@ -12,6 +12,7 @@ func New() http.Handler {
 
 	// API v1
 	mux.HandleFunc("/api/v1/health", handlers.HealthHandler)
+	mux.HandleFunc("/api/v1/network", handlers.NetworkHandler)
 
 	return middleware.Logging(mux)
 }
