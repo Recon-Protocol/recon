@@ -4,12 +4,14 @@ import (
 	"net/http"
 
 	"github.com/Recon-Protocol/recon/apps/api/internal/handlers"
+	"github.com/Recon-Protocol/recon/apps/api/internal/middleware"
 )
 
-func New() *http.ServeMux {
+func New() http.Handler {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/health", handlers.HealthHandler)
+	// API v1
+	mux.HandleFunc("/api/v1/health", handlers.HealthHandler)
 
-	return mux
+	return middleware.Logging(mux)
 }
