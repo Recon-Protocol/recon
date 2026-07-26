@@ -1,17 +1,13 @@
 package services
 
-type NetworkResponse struct {
-	Network   string `json:"network"`
-	APIVersion string `json:"api_version"`
-	Service   string `json:"service"`
-	Status    string `json:"status"`
-}
+import (
+	"github.com/Recon-Protocol/recon/apps/api/internal/client/kaspa"
+	"github.com/Recon-Protocol/recon/apps/api/internal/models"
+)
 
-func GetNetwork() NetworkResponse {
-	return NetworkResponse{
-		Network:    "kaspa-mainnet",
-		APIVersion: "v1",
-		Service:    "recon-api",
-		Status:     "online",
-	}
+func GetNetwork() (models.NetworkInfo, error) {
+
+	client := kaspa.New()
+
+	return client.GetNetworkInfo()
 }
