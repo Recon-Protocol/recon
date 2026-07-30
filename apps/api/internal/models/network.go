@@ -7,7 +7,14 @@ type NetworkInfo struct {
 	Difficulty      uint64 `json:"difficulty"`
 	VirtualDAAScore uint64 `json:"virtual_daa_score"`
 
+	// Metadata
 	Status     string `json:"status"`
 	Service    string `json:"service"`
 	APIVersion string `json:"api_version"`
+}
+
+type NetworkSnapshot struct {
+	NetworkInfo
+
+	Timestamp int64 `json:"timestamp"`
 }

@@ -6,7 +6,7 @@ import (
 	"github.com/Recon-Protocol/recon/apps/api/internal/client"
 )
 
-const networkEndpoint = "https://api.kaspa.org/info/network"
+const baseURL = "https://api.kaspa.org"
 
 type Client struct {
 	http *http.Client

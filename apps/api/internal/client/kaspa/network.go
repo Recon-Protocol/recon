@@ -19,7 +19,7 @@ type networkAPIResponse struct {
 
 func (c *Client) GetNetworkInfo() (models.NetworkInfo, error) {
 
-	req, err := http.NewRequest(http.MethodGet, networkEndpoint, nil)
+	req, err := http.NewRequest(http.MethodGet, baseURL+"/info/network", nil)
 	if err != nil {
 		return models.NetworkInfo{}, err
 	}
