@@ -561,3 +561,77 @@
     justify-content: center;
   }
 }
+
+/* ─────────────────────────────────────────
+   THEME TOGGLE
+───────────────────────────────────────── */
+
+.theme-toggle {
+  background: none;
+  border: 1px solid #00d9c5;
+  color: #00d9c5;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px 10px;
+  margin-right: 16px;
+  font-family: "Space Mono", monospace;
+}
+
+.theme-toggle:hover {
+  background: #00d9c5;
+  color: #000;
+}
+
+/* ─────────────────────────────────────────
+   LIGHT MODE
+───────────────────────────────────────── */
+
+.light-mode {
+  background: #F0F4F8;
+  color: #0D1117;
+}
+
+.light-mode .topbar {
+  background: #E2E8F0;
+  border-bottom-color: #CBD5E0;
+}
+
+.light-mode .metric-card,
+.light-mode .panel {
+  background: #FFFFFF;
+  border-color: #CBD5E0;
+}
+
+.light-mode .data-row span {
+  color: #4A5568;
+}
+
+.light-mode .data-row strong {
+  color: #1A202C;
+}
+
+.light-mode .hero-section {
+  background: #E2E8F0;
+}
+
+.light-mode .footer {
+  background: #E2E8F0;
+  border-top-color: #CBD5E0;
+  color: #4A5568;
+}
+
+.light-mode .panel h2 {
+  color: #1A202C;
+}
+
+.light-mode .supply-ring strong {
+  color: #1A202C;
+}
+
+.light-mode .score-block strong {
+  color: #00d9c5;
+}
+
+.light-mode .signal strong {
+  color: #1A202C;
+}
