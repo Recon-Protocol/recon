@@ -25,7 +25,7 @@ import type {
 
 function formatNumber(value: number | undefined, decimals = 2): string {
   if (value === undefined || Number.isNaN(value)) return '—'
-  return new Intl.NumberFormat('de-DE', {
+  return new Intl.NumberFormat('en-US', {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
   }).format(value)
@@ -34,18 +34,18 @@ function formatNumber(value: number | undefined, decimals = 2): string {
 function formatSupply(value: number | undefined): string {
   if (value === undefined || Number.isNaN(value)) return '—'
   const kas = value / 100_000_000
-  if (kas >= 1_000_000_000) return `${formatNumber(kas / 1_000_000_000)} Mrd. KAS`
-  if (kas >= 1_000_000) return `${formatNumber(kas / 1_000_000)} Mio. KAS`
-  if (kas >= 1_000) return `${formatNumber(kas / 1_000)} Tsd. KAS`
+  if (kas >= 1_000_000_000) return `${formatNumber(kas / 1_000_000_000)}B KAS`
+  if (kas >= 1_000_000) return `${formatNumber(kas / 1_000_000)}M KAS`
+  if (kas >= 1_000) return `${formatNumber(kas / 1_000)}K KAS`
   return `${formatNumber(kas)} KAS`
 }
 
 function formatPrice(value: number | undefined): string {
   if (value === undefined || Number.isNaN(value)) return '—'
-  return `${value.toLocaleString('de-DE', {
+  return `$${value.toLocaleString('en-US', {
     minimumFractionDigits: 6,
     maximumFractionDigits: 6,
-  })} USD`
+  })}`
 }
 
 function App() {
@@ -83,7 +83,7 @@ function App() {
       setLastUpdated(new Date())
     } catch (err) {
       console.error(err)
-      setError(err instanceof Error ? err.message : 'Verbindung zur RECON API nicht möglich')
+      setError(err instanceof Error ? err.message : 'Unable to connect to RECON API')
     } finally {
       setLoading(false)
     }
@@ -104,7 +104,7 @@ function App() {
           <div className="brand-mark">R</div>
           <div>
             <div className="brand-name">RECON</div>
-            <div className="brand-subtitle">NETZWERK-INTELLIGENZSYSTEM</div>
+            <div className="brand-subtitle">NETWORK INTELLIGENCE SYSTEM</div>
           </div>
         </div>
 
@@ -112,12 +112,12 @@ function App() {
           <button
             className="theme-toggle"
             onClick={() => setDarkMode(!darkMode)}
-            title="Theme wechseln"
+            title="Toggle theme"
           >
             {darkMode ? '☀' : '☽'}
           </button>
           <span className="status-dot" />
-          <span>SYSTEMBETRIEB / KASPA-MAINNET</span>
+          <span>SYSTEM ACTIVE / KASPA-MAINNET</span>
           <span className="status-divider">/</span>
           <span>{networkOnline ? 'ONLINE' : 'OFFLINE'}</span>
         </div>
@@ -128,13 +128,13 @@ function App() {
           <p className="eyebrow">RECON PROTOCOL / NETWORK INTELLIGENCE</p>
           <h1>KASPA <span>RECON</span></h1>
           <p className="hero-description">
-            Kontinuierliche Netzwerkintelligenz für die Kaspa-Proof-of-Work-Infrastruktur.
-            Überwachung des Netzwerkzustands, der Versorgungsdynamik, der Hashrate und der Emissionsbedingungen.
+            Continuous network intelligence for Kaspa proof-of-work infrastructure.
+            Monitoring network state, supply dynamics, hashrate, and emission conditions.
           </p>
         </div>
 
         <div className="hero-status">
-          <span className="hero-status-label">NETZWERKSTATUS</span>
+          <span className="hero-status-label">NETWORK STATUS</span>
           <strong>{networkOnline ? 'ONLINE' : 'OFFLINE'}</strong>
           <span className="hero-status-line" />
           <span className="hero-status-meta">SERVICE: {health?.service ?? 'recon-api'}</span>
@@ -149,22 +149,22 @@ function App() {
       <section className="metrics-grid">
         <article className="metric-card">
           <div className="metric-header">
-            <span>NETZWERK-HASHRATE</span>
+            <span>NETWORK HASHRATE</span>
             <span className="metric-index">01</span>
           </div>
           <div className="metric-value">
-            {hashrate?.hashrate !== undefined ? formatNumber(hashrate.hashrate) : '—'}
+            {hashrate?.hashrate !== undefined ? formatNumber(hashrate.hashrate / 1000) : '—'}
             <small>PH/s</small>
           </div>
           <div className="metric-footer">
-            <span>LEISTUNGSNACHWEIS</span>
+            <span>PROOF OF WORK</span>
             <span className="positive">LIVE</span>
           </div>
         </article>
 
         <article className="metric-card">
           <div className="metric-header">
-            <span>VORRAT ABGEBAUT</span>
+            <span>SUPPLY MINED</span>
             <span className="metric-index">02</span>
           </div>
           <div className="metric-value">
@@ -172,14 +172,14 @@ function App() {
             <small>%</small>
           </div>
           <div className="metric-footer">
-            <span>ZIRKULIEREND</span>
-            <span className="positive">AKTIV</span>
+            <span>CIRCULATING</span>
+            <span className="positive">ACTIVE</span>
           </div>
         </article>
 
         <article className="metric-card">
           <div className="metric-header">
-            <span>BLOCKBELOHNUNG</span>
+            <span>BLOCK REWARD</span>
             <span className="metric-index">03</span>
           </div>
           <div className="metric-value">
@@ -187,10 +187,10 @@ function App() {
             <small>KAS</small>
           </div>
           <div className="metric-footer">
-            <span>NÄCHSTE REDUZIERUNG</span>
+            <span>NEXT REDUCTION</span>
             <span>
               {analytics?.days_to_reduction !== undefined
-                ? `${formatNumber(analytics.days_to_reduction, 1)} TAGE`
+                ? `${formatNumber(analytics.days_to_reduction, 1)} DAYS`
                 : '—'}
             </span>
           </div>
@@ -198,7 +198,7 @@ function App() {
 
         <article className="metric-card">
           <div className="metric-header">
-            <span>INTELLIGENZ</span>
+            <span>INTELLIGENCE</span>
             <span className="metric-index">04</span>
           </div>
           <div className="intelligence-value">
@@ -216,35 +216,35 @@ function App() {
         <article className="panel">
           <div className="panel-header">
             <div>
-              <span className="panel-label">01 / NETZWERK</span>
-              <h2>Netzwerkmetriken</h2>
+              <span className="panel-label">01 / NETWORK</span>
+              <h2>Network Metrics</h2>
             </div>
             <span className="panel-status">LIVE</span>
           </div>
           <div className="data-list">
             <div className="data-row">
-              <span>Netzwerk</span>
+              <span>Network</span>
               <strong>{metrics?.network ?? 'kaspa-mainnet'}</strong>
             </div>
             <div className="data-row">
-              <span>Blockanzahl</span>
+              <span>Block Count</span>
               <strong>{metrics ? formatNumber(metrics.block_count, 0) : '—'}</strong>
             </div>
             <div className="data-row">
-              <span>Anzahl der Header</span>
+              <span>Header Count</span>
               <strong>{metrics ? formatNumber(metrics.header_count, 0) : '—'}</strong>
             </div>
             <div className="data-row">
-              <span>Schwierigkeit</span>
+              <span>Difficulty</span>
               <strong>{metrics ? formatNumber(metrics.difficulty, 0) : '—'}</strong>
             </div>
             <div className="data-row">
-              <span>Virtuelle DAA-Punktzahl</span>
+              <span>Virtual DAA Score</span>
               <strong>{metrics ? formatNumber(metrics.virtual_daa_score, 0) : '—'}</strong>
             </div>
             <div className="data-row">
               <span>Hashrate</span>
-              <strong>{hashrate?.hashrate !== undefined ? `${formatNumber(hashrate.hashrate)} PH/s` : '—'}</strong>
+              <strong>{hashrate?.hashrate !== undefined ? `${formatNumber(hashrate.hashrate / 1000)} PH/s` : '—'}</strong>
             </div>
           </div>
         </article>
@@ -252,8 +252,8 @@ function App() {
         <article className="panel">
           <div className="panel-header">
             <div>
-              <span className="panel-label">02 / VERSORGUNG</span>
-              <h2>Emissionszustand</h2>
+              <span className="panel-label">02 / SUPPLY</span>
+              <h2>Emission State</h2>
             </div>
             <span className="panel-status">SUPPLY</span>
           </div>
@@ -265,24 +265,24 @@ function App() {
                     ? `${formatNumber(analytics.percent_mined)}%`
                     : '—'}
                 </strong>
-                <span>ABGEBAUT</span>
+                <span>MINED</span>
               </div>
             </div>
             <div className="supply-data">
               <div>
-                <span>Umlaufangebot</span>
+                <span>Circulating Supply</span>
                 <strong>{formatSupply(analytics?.circulating_supply)}</strong>
               </div>
               <div>
-                <span>Gesamtangebot</span>
+                <span>Max Supply</span>
                 <strong>{formatSupply(analytics?.max_supply)}</strong>
               </div>
               <div>
-                <span>Restbestand</span>
+                <span>Remaining Supply</span>
                 <strong>{formatSupply(analytics?.remaining_supply)}</strong>
               </div>
               <div>
-                <span>Nächste Reduzierung</span>
+                <span>Next Reduction</span>
                 <strong>{supply?.next_reduction ?? '—'}</strong>
               </div>
             </div>
@@ -292,14 +292,14 @@ function App() {
         <article className="panel wide-panel">
           <div className="panel-header">
             <div>
-              <span className="panel-label">03 / INTELLIGENZ</span>
-              <h2>Netzwerkbewertung</h2>
+              <span className="panel-label">03 / INTELLIGENCE</span>
+              <h2>Network Assessment</h2>
             </div>
             <span className="panel-status">{intelligence?.trend?.toUpperCase() ?? '—'}</span>
           </div>
           <div className="assessment">
             <div className="score-block">
-              <span>AUFKLÄRUNGSWERT</span>
+              <span>INTELLIGENCE SCORE</span>
               <strong>{intelligence?.score ?? '—'}</strong>
               <small>/ 100 — {intelligence?.grade ?? '—'}</small>
             </div>
@@ -309,7 +309,7 @@ function App() {
                   <span>+</span>
                   <div>
                     <strong>{signal}</strong>
-                    <small>NETZWERKSIGNAL ERKANNT</small>
+                    <small>NETWORK SIGNAL DETECTED</small>
                   </div>
                 </div>
               ))}
@@ -320,34 +320,34 @@ function App() {
         <article className="panel wide-panel">
           <div className="panel-header">
             <div>
-              <span className="panel-label">04 / MARKT</span>
-              <h2>Marktdaten</h2>
+              <span className="panel-label">04 / MARKET</span>
+              <h2>Market Data</h2>
             </div>
             <span className="panel-status">LIVE</span>
           </div>
           <div className="data-list">
             <div className="data-row">
-              <span>KAS-Preis</span>
+              <span>KAS Price</span>
               <strong>{formatPrice(price?.price_usd)}</strong>
             </div>
             <div className="data-row">
-              <span>Marktkapitalisierung</span>
+              <span>Market Cap</span>
               <strong>
                 {price?.market_cap_usd && price.market_cap_usd > 0
                   ? `$${formatNumber(price.market_cap_usd, 0)}`
-                  : 'DATEN NICHT VERFÜGBAR'}
+                  : 'DATA UNAVAILABLE'}
               </strong>
             </div>
             <div className="data-row">
-              <span>24-Stunden-Volumen</span>
+              <span>24h Volume</span>
               <strong>
                 {price?.volume_24h_usd && price.volume_24h_usd > 0
                   ? `$${formatNumber(price.volume_24h_usd, 0)}`
-                  : 'DATEN NICHT VERFÜGBAR'}
+                  : 'DATA UNAVAILABLE'}
               </strong>
             </div>
             <div className="data-row">
-              <span>24-Stunden-Änderung</span>
+              <span>24h Change</span>
               <strong className={(price?.change_24h ?? 0) >= 0 ? 'positive' : ''}>
                 {price?.change_24h !== undefined
                   ? `${price.change_24h >= 0 ? '+' : ''}${formatNumber(price.change_24h)}%`
@@ -367,7 +367,7 @@ function App() {
           </div>
           <div className="data-list">
             <div className="data-row">
-              <span>Netzwerk</span>
+              <span>Network</span>
               <strong>{report?.network ?? '—'}</strong>
             </div>
             <div className="data-row">
@@ -375,19 +375,19 @@ function App() {
               <strong>{report?.hashrate ?? '—'}</strong>
             </div>
             <div className="data-row">
-              <span>Umlaufangebot</span>
+              <span>Circulating Supply</span>
               <strong>{report?.circulating_supply ?? '—'}</strong>
             </div>
             <div className="data-row">
-              <span>Abgebaut</span>
+              <span>Mined</span>
               <strong>{report?.percent_mined ?? '—'}</strong>
             </div>
             <div className="data-row">
-              <span>Blockbelohnung</span>
+              <span>Block Reward</span>
               <strong>{report?.block_reward ?? '—'}</strong>
             </div>
             <div className="data-row">
-              <span>Nächste Reduzierung</span>
+              <span>Next Reduction</span>
               <strong>{report?.next_reduction ?? '—'}</strong>
             </div>
           </div>
@@ -395,14 +395,14 @@ function App() {
       </section>
 
       <footer className="footer">
-        <span>RECON-PROTOKOLL / KASPA-NETZWERK-INTELLIGENZ</span>
-        <span>AUTOMATISCHE AKTUALISIERUNG / 30 SEKUNDEN</span>
+        <span>RECON PROTOCOL / KASPA NETWORK INTELLIGENCE</span>
+        <span>AUTO UPDATE / 30 SECONDS</span>
         <span>
           {loading
-            ? 'SYNCHRONISIERE...'
+            ? 'SYNCING...'
             : lastUpdated
-              ? `LETZTES UPDATE / ${lastUpdated.toLocaleTimeString('de-DE')}`
-              : 'WARTET AUF DATEN'}
+              ? `LAST UPDATE / ${lastUpdated.toLocaleTimeString('en-US')}`
+              : 'WAITING FOR DATA'}
         </span>
       </footer>
     </main>
