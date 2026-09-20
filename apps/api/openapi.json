@@ -1,0 +1,132 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "RECON API",
+    "version": "0.1.0",
+    "description": "RECON API for Kaspa network analytics."
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Returns the health status of the RECON API.",
+        "responses": {
+          "200": {
+            "description": "API is healthy",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "ok",
+                  "service": "recon-api",
+                  "version": "0.1.0"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/network": {
+      "get": {
+        "summary": "Network Information",
+        "description": "Returns current Kaspa network statistics.",
+        "responses": {
+          "200": {
+            "description": "Current network information",
+            "content": {
+              "application/json": {
+                "example": {
+                  "network": "kaspa-mainnet",
+                  "block_count": 1442961,
+                  "header_count": 1442961,
+                  "difficulty": 16444497972871976,
+                  "virtual_daa_score": 500158812,
+                  "status": "online",
+                  "service": "recon-api",
+                  "api_version": "v1"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/metrics": {
+      "get": {
+        "summary": "Network Metrics",
+        "description": "Returns a live snapshot of Kaspa network metrics.",
+        "responses": {
+          "200": {
+            "description": "Current metrics snapshot"
+          }
+        }
+      }
+    },
+    "/api/v1/supply": {
+      "get": {
+        "summary": "Supply Information",
+        "description": "Returns circulating supply, max supply, block reward and next reduction.",
+        "responses": {
+          "200": {
+            "description": "Current supply information"
+          }
+        }
+      }
+    },
+    "/api/v1/hashrate": {
+      "get": {
+        "summary": "Network Hashrate",
+        "description": "Returns the current Kaspa network hashrate.",
+        "responses": {
+          "200": {
+            "description": "Current network hashrate"
+          }
+        }
+      }
+    },
+    "/api/v1/price": {
+      "get": {
+        "summary": "Price",
+        "description": "Returns the current Kaspa price.",
+        "responses": {
+          "200": {
+            "description": "Current market price"
+          }
+        }
+      }
+    },
+    "/api/v1/analytics": {
+      "get": {
+        "summary": "Analytics",
+        "description": "Returns calculated analytics based on network data.",
+        "responses": {
+          "200": {
+            "description": "Calculated analytics"
+          }
+        }
+      }
+    },
+    "/api/v1/report": {
+      "get": {
+        "summary": "RECON Report",
+        "description": "Returns a formatted human-readable RECON report.",
+        "responses": {
+          "200": {
+            "description": "Formatted report"
+          }
+        }
+      }
+    },
+    "/api/v1/intelligence": {
+      "get": {
+        "summary": "RECON Intelligence",
+        "description": "Returns the RECON Intelligence score, grade, trend and signals.",
+        "responses": {
+          "200": {
+            "description": "Network intelligence"
+          }
+        }
+      }
+    }
+  }
+}

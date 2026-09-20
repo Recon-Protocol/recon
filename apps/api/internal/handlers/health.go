@@ -11,6 +11,14 @@ type HealthResponse struct {
 	Version string `json:"version"`
 }
 
+// HealthHandler godoc
+//
+//	@Summary		Health Check
+//	@Description	Returns the health status of the RECON API.
+//	@Tags			System
+//	@Produce		json
+//	@Success		200	{object}	HealthResponse
+//	@Router			/api/v1/health [get]
 func HealthHandler(w http.ResponseWriter, r *http.Request) {
 	response := HealthResponse{
 		Status:  "ok",

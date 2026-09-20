@@ -1,0 +1,330 @@
+basePath: /api/v1
+definitions:
+  handlers.HealthResponse:
+    properties:
+      service:
+        type: string
+      status:
+        type: string
+      version:
+        type: string
+    type: object
+  models.Analytics:
+    properties:
+      api_version:
+        type: string
+      block_reward:
+        type: string
+      circulating_supply:
+        type: integer
+      days_to_reduction:
+        type: number
+      hashrate_phs:
+        type: number
+      max_supply:
+        type: integer
+      next_reduction:
+        type: string
+      percent_mined:
+        type: number
+      remaining_supply:
+        type: integer
+      service:
+        type: string
+      status:
+        type: string
+    type: object
+  models.HashrateInfo:
+    properties:
+      api_version:
+        type: string
+      hashrate:
+        type: number
+      service:
+        type: string
+      status:
+        type: string
+    type: object
+  models.Intelligence:
+    properties:
+      api_version:
+        type: string
+      grade:
+        type: string
+      score:
+        type: integer
+      service:
+        type: string
+      signals:
+        items:
+          type: string
+        type: array
+      status:
+        type: string
+      trend:
+        type: string
+    type: object
+  models.NetworkInfo:
+    properties:
+      api_version:
+        type: string
+      block_count:
+        type: integer
+      difficulty:
+        type: integer
+      header_count:
+        type: integer
+      network:
+        type: string
+      service:
+        type: string
+      status:
+        description: Metadata
+        type: string
+      virtual_daa_score:
+        type: integer
+    type: object
+  models.NetworkSnapshot:
+    properties:
+      api_version:
+        type: string
+      block_count:
+        type: integer
+      difficulty:
+        type: integer
+      header_count:
+        type: integer
+      network:
+        type: string
+      service:
+        type: string
+      status:
+        description: Metadata
+        type: string
+      timestamp:
+        type: integer
+      virtual_daa_score:
+        type: integer
+    type: object
+  models.PriceInfo:
+    properties:
+      api_version:
+        type: string
+      change_24h:
+        type: number
+      market_cap_usd:
+        type: number
+      price_usd:
+        type: number
+      service:
+        type: string
+      status:
+        type: string
+      volume_24h_usd:
+        type: number
+    type: object
+  models.Report:
+    properties:
+      api_version:
+        type: string
+      block_reward:
+        type: string
+      circulating_supply:
+        type: string
+      hashrate:
+        type: string
+      network:
+        type: string
+      network_status:
+        type: string
+      next_reduction:
+        type: string
+      percent_mined:
+        type: string
+      service:
+        type: string
+      status:
+        type: string
+    type: object
+  models.SupplyInfo:
+    properties:
+      api_version:
+        type: string
+      block_reward:
+        type: string
+      circulating_supply:
+        type: integer
+      next_reduction:
+        type: string
+      service:
+        type: string
+      status:
+        type: string
+      total_supply:
+        type: integer
+    type: object
+info:
+  contact:
+    name: Recon Protocol
+  description: RECON API for Kaspa network analytics and intelligence.
+  license:
+    name: MIT
+  title: RECON API
+  version: 0.1.0
+paths:
+  /api/v1/analytics:
+    get:
+      description: Returns calculated analytics for the Kaspa network, including hashrate,
+        supply, mining reward and next emission reduction.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Analytics'
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get Kaspa network analytics
+      tags:
+      - Analytics
+  /api/v1/hashrate:
+    get:
+      description: Returns the current Kaspa network hashrate.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.HashrateInfo'
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get Kaspa network hashrate
+      tags:
+      - Hashrate
+  /api/v1/health:
+    get:
+      description: Returns the health status of the RECON API.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.HealthResponse'
+      summary: Health Check
+      tags:
+      - System
+  /api/v1/intelligence:
+    get:
+      description: Returns the current RECON intelligence score, grade, trend and
+        detected network signals.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Intelligence'
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get Kaspa network intelligence
+      tags:
+      - Intelligence
+  /api/v1/metrics:
+    get:
+      description: Returns the current Kaspa network metrics snapshot, including block
+        count, header count, difficulty and virtual DAA score.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.NetworkSnapshot'
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get Kaspa network metrics
+      tags:
+      - Metrics
+  /api/v1/network:
+    get:
+      description: Returns the current Kaspa network information, including block
+        count, header count, difficulty and virtual DAA score.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.NetworkInfo'
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get Kaspa network information
+      tags:
+      - Network
+  /api/v1/price:
+    get:
+      description: Returns the current Kaspa price, market capitalization, 24-hour
+        volume and 24-hour price change.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PriceInfo'
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get Kaspa price information
+      tags:
+      - Price
+  /api/v1/report:
+    get:
+      description: Returns a formatted report containing the current Kaspa network,
+        supply, hashrate and emission data.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Report'
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get Kaspa network report
+      tags:
+      - Report
+  /api/v1/supply:
+    get:
+      description: Returns the current Kaspa supply and emission data.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SupplyInfo'
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get Kaspa supply information
+      tags:
+      - Supply
+swagger: "2.0"

@@ -1,0 +1,495 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "RECON API for Kaspa network analytics and intelligence.",
+        "title": "RECON API",
+        "contact": {
+            "name": "Recon Protocol"
+        },
+        "license": {
+            "name": "MIT"
+        },
+        "version": "0.1.0"
+    },
+    "basePath": "/api/v1",
+    "paths": {
+        "/api/v1/analytics": {
+            "get": {
+                "description": "Returns calculated analytics for the Kaspa network, including hashrate, supply, mining reward and next emission reduction.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Analytics"
+                ],
+                "summary": "Get Kaspa network analytics",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Analytics"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/hashrate": {
+            "get": {
+                "description": "Returns the current Kaspa network hashrate.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hashrate"
+                ],
+                "summary": "Get Kaspa network hashrate",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.HashrateInfo"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/health": {
+            "get": {
+                "description": "Returns the health status of the RECON API.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "System"
+                ],
+                "summary": "Health Check",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.HealthResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/intelligence": {
+            "get": {
+                "description": "Returns the current RECON intelligence score, grade, trend and detected network signals.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Intelligence"
+                ],
+                "summary": "Get Kaspa network intelligence",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Intelligence"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/metrics": {
+            "get": {
+                "description": "Returns the current Kaspa network metrics snapshot, including block count, header count, difficulty and virtual DAA score.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Metrics"
+                ],
+                "summary": "Get Kaspa network metrics",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.NetworkSnapshot"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/network": {
+            "get": {
+                "description": "Returns the current Kaspa network information, including block count, header count, difficulty and virtual DAA score.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Network"
+                ],
+                "summary": "Get Kaspa network information",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.NetworkInfo"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/price": {
+            "get": {
+                "description": "Returns the current Kaspa price, market capitalization, 24-hour volume and 24-hour price change.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Price"
+                ],
+                "summary": "Get Kaspa price information",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.PriceInfo"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/report": {
+            "get": {
+                "description": "Returns a formatted report containing the current Kaspa network, supply, hashrate and emission data.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Report"
+                ],
+                "summary": "Get Kaspa network report",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Report"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/supply": {
+            "get": {
+                "description": "Returns the current Kaspa supply and emission data.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Supply"
+                ],
+                "summary": "Get Kaspa supply information",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.SupplyInfo"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "handlers.HealthResponse": {
+            "type": "object",
+            "properties": {
+                "service": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Analytics": {
+            "type": "object",
+            "properties": {
+                "api_version": {
+                    "type": "string"
+                },
+                "block_reward": {
+                    "type": "string"
+                },
+                "circulating_supply": {
+                    "type": "integer"
+                },
+                "days_to_reduction": {
+                    "type": "number"
+                },
+                "hashrate_phs": {
+                    "type": "number"
+                },
+                "max_supply": {
+                    "type": "integer"
+                },
+                "next_reduction": {
+                    "type": "string"
+                },
+                "percent_mined": {
+                    "type": "number"
+                },
+                "remaining_supply": {
+                    "type": "integer"
+                },
+                "service": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.HashrateInfo": {
+            "type": "object",
+            "properties": {
+                "api_version": {
+                    "type": "string"
+                },
+                "hashrate": {
+                    "type": "number"
+                },
+                "service": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Intelligence": {
+            "type": "object",
+            "properties": {
+                "api_version": {
+                    "type": "string"
+                },
+                "grade": {
+                    "type": "string"
+                },
+                "score": {
+                    "type": "integer"
+                },
+                "service": {
+                    "type": "string"
+                },
+                "signals": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "status": {
+                    "type": "string"
+                },
+                "trend": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.NetworkInfo": {
+            "type": "object",
+            "properties": {
+                "api_version": {
+                    "type": "string"
+                },
+                "block_count": {
+                    "type": "integer"
+                },
+                "difficulty": {
+                    "type": "integer"
+                },
+                "header_count": {
+                    "type": "integer"
+                },
+                "network": {
+                    "type": "string"
+                },
+                "service": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "Metadata",
+                    "type": "string"
+                },
+                "virtual_daa_score": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.NetworkSnapshot": {
+            "type": "object",
+            "properties": {
+                "api_version": {
+                    "type": "string"
+                },
+                "block_count": {
+                    "type": "integer"
+                },
+                "difficulty": {
+                    "type": "integer"
+                },
+                "header_count": {
+                    "type": "integer"
+                },
+                "network": {
+                    "type": "string"
+                },
+                "service": {
+                    "type": "string"
+                },
+                "status": {
+                    "description": "Metadata",
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "integer"
+                },
+                "virtual_daa_score": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.PriceInfo": {
+            "type": "object",
+            "properties": {
+                "api_version": {
+                    "type": "string"
+                },
+                "change_24h": {
+                    "type": "number"
+                },
+                "market_cap_usd": {
+                    "type": "number"
+                },
+                "price_usd": {
+                    "type": "number"
+                },
+                "service": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "volume_24h_usd": {
+                    "type": "number"
+                }
+            }
+        },
+        "models.Report": {
+            "type": "object",
+            "properties": {
+                "api_version": {
+                    "type": "string"
+                },
+                "block_reward": {
+                    "type": "string"
+                },
+                "circulating_supply": {
+                    "type": "string"
+                },
+                "hashrate": {
+                    "type": "string"
+                },
+                "network": {
+                    "type": "string"
+                },
+                "network_status": {
+                    "type": "string"
+                },
+                "next_reduction": {
+                    "type": "string"
+                },
+                "percent_mined": {
+                    "type": "string"
+                },
+                "service": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.SupplyInfo": {
+            "type": "object",
+            "properties": {
+                "api_version": {
+                    "type": "string"
+                },
+                "block_reward": {
+                    "type": "string"
+                },
+                "circulating_supply": {
+                    "type": "integer"
+                },
+                "next_reduction": {
+                    "type": "string"
+                },
+                "service": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "total_supply": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}
