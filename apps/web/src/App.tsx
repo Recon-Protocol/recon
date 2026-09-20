@@ -48,6 +48,13 @@ function formatPrice(value: number | undefined): string {
   })}`
 }
 
+function formatBlockReward(value: string | undefined): string {
+  if (!value) return '—'
+  const num = parseFloat(value)
+  if (Number.isNaN(num)) return value
+  return num.toFixed(2) + ' KAS'
+}
+
 function App() {
   const [health, setHealth] = useState<HealthResponse | null>(null)
   const [metrics, setMetrics] = useState<NetworkSnapshot | null>(null)
@@ -137,8 +144,9 @@ function App() {
           <span className="hero-status-label">NETWORK STATUS</span>
           <strong>{networkOnline ? 'ONLINE' : 'OFFLINE'}</strong>
           <span className="hero-status-line" />
-          <span className="hero-status-meta">SERVICE: {health?.service ?? 'recon-api'}</span>
-          <span className="hero-status-meta">API: v1</span>
+          <span className="hero-status-meta">
+            {networkOnline ? 'KASPA MAINNET CONNECTED' : 'CONNECTION LOST'}
+          </span>
         </div>
       </section>
 
@@ -168,7 +176,7 @@ function App() {
             <span className="metric-index">02</span>
           </div>
           <div className="metric-value">
-            {analytics?.percent_mined !== undefined ? `${formatNumber(analytics.percent_mined)}` : '—'}
+            {analytics?.percent_mined !== undefined ? formatNumber(analytics.percent_mined) : '—'}
             <small>%</small>
           </div>
           <div className="metric-footer">
@@ -183,14 +191,13 @@ function App() {
             <span className="metric-index">03</span>
           </div>
           <div className="metric-value">
-            {supply?.block_reward ?? '—'}
-            <small>KAS</small>
-          </div>
+  {formatBlockReward(supply?.block_reward)}
+</div>
           <div className="metric-footer">
             <span>NEXT REDUCTION</span>
-            <span>
+            <span className="positive">
               {analytics?.days_to_reduction !== undefined
-                ? `${formatNumber(analytics.days_to_reduction, 1)} DAYS`
+                ? `${formatNumber(analytics.days_to_reduction, 1)}d`
                 : '—'}
             </span>
           </div>
@@ -255,7 +262,7 @@ function App() {
               <span className="panel-label">02 / SUPPLY</span>
               <h2>Emission State</h2>
             </div>
-            <span className="panel-status">SUPPLY</span>
+            <span className="panel-status">LIVE</span>
           </div>
           <div className="supply-visual">
             <div className="supply-ring">
@@ -269,19 +276,19 @@ function App() {
               </div>
             </div>
             <div className="supply-data">
-              <div>
+              <div className="supply-row">
                 <span>Circulating Supply</span>
                 <strong>{formatSupply(analytics?.circulating_supply)}</strong>
               </div>
-              <div>
+              <div className="supply-row">
                 <span>Max Supply</span>
                 <strong>{formatSupply(analytics?.max_supply)}</strong>
               </div>
-              <div>
+              <div className="supply-row">
                 <span>Remaining Supply</span>
                 <strong>{formatSupply(analytics?.remaining_supply)}</strong>
               </div>
-              <div>
+              <div className="supply-row">
                 <span>Next Reduction</span>
                 <strong>{supply?.next_reduction ?? '—'}</strong>
               </div>
@@ -330,22 +337,18 @@ function App() {
               <span>KAS Price</span>
               <strong>{formatPrice(price?.price_usd)}</strong>
             </div>
-            <div className="data-row">
-              <span>Market Cap</span>
-              <strong>
-                {price?.market_cap_usd && price.market_cap_usd > 0
-                  ? `$${formatNumber(price.market_cap_usd, 0)}`
-                  : 'DATA UNAVAILABLE'}
-              </strong>
-            </div>
-            <div className="data-row">
-              <span>24h Volume</span>
-              <strong>
-                {price?.volume_24h_usd && price.volume_24h_usd > 0
-                  ? `$${formatNumber(price.volume_24h_usd, 0)}`
-                  : 'DATA UNAVAILABLE'}
-              </strong>
-            </div>
+            {price?.market_cap_usd && price.market_cap_usd > 1000 && (
+              <div className="data-row">
+                <span>Market Cap</span>
+                <strong>${formatNumber(price.market_cap_usd, 0)}</strong>
+              </div>
+            )}
+            {price?.volume_24h_usd && price.volume_24h_usd > 1000 && (
+              <div className="data-row">
+                <span>24h Volume</span>
+                <strong>${formatNumber(price.volume_24h_usd, 0)}</strong>
+              </div>
+            )}
             <div className="data-row">
               <span>24h Change</span>
               <strong className={(price?.change_24h ?? 0) >= 0 ? 'positive' : ''}>
@@ -384,7 +387,7 @@ function App() {
             </div>
             <div className="data-row">
               <span>Block Reward</span>
-              <strong>{report?.block_reward ?? '—'}</strong>
+              <strong>{formatBlockReward(supply?.block_reward)}</strong>
             </div>
             <div className="data-row">
               <span>Next Reduction</span>
