@@ -24,7 +24,7 @@ import type {
 } from './types/api'
 
 function formatNumber(value: number | undefined, decimals = 2): string {
-  if (value === undefined || Number.isNaN(value)) return '—'
+  if (value === undefined || Number.isNaN(value) || value === 0) return '—'
   return new Intl.NumberFormat('en-US', {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
@@ -41,7 +41,7 @@ function formatSupply(value: number | undefined): string {
 }
 
 function formatPrice(value: number | undefined): string {
-  if (value === undefined || Number.isNaN(value)) return '—'
+  if (value === undefined || Number.isNaN(value) || value === 0) return '—'
   return `$${value.toLocaleString('en-US', {
     minimumFractionDigits: 6,
     maximumFractionDigits: 6,
@@ -191,8 +191,8 @@ function App() {
             <span className="metric-index">03</span>
           </div>
           <div className="metric-value">
-  {formatBlockReward(supply?.block_reward)}
-</div>
+            {formatBlockReward(supply?.block_reward)}
+          </div>
           <div className="metric-footer">
             <span>NEXT REDUCTION</span>
             <span className="positive">
@@ -327,7 +327,41 @@ function App() {
         <article className="panel wide-panel">
           <div className="panel-header">
             <div>
-              <span className="panel-label">04 / MARKET</span>
+              <span className="panel-label">04 / EXCHANGE FLOWS</span>
+              <h2>Exchange Balance & Flows</h2>
+            </div>
+            <span className="panel-status">24H / 7D</span>
+          </div>
+          <div className="exchange-grid">
+            {(report?.exchange_flows ?? []).map((flow) => (
+              <div className="exchange-card" key={flow.name}>
+                <div className="exchange-name">{flow.name}</div>
+                <div className="exchange-balance">
+                  {(flow.balance_kas / 1_000_000).toFixed(1)}M KAS
+                </div>
+                <div className="exchange-flows-row">
+                  <div className="exchange-flow-item">
+                    <span>24h</span>
+                    <strong className={flow.change_24h > 0 ? 'positive' : flow.change_24h < 0 ? 'negative' : ''}>
+                      {flow.change_24h === 0 ? '—' : `${flow.change_24h > 0 ? '+' : ''}${(flow.change_24h / 1_000_000).toFixed(1)}M`}
+                    </strong>
+                  </div>
+                  <div className="exchange-flow-item">
+                    <span>7d</span>
+                    <strong className={flow.change_7d > 0 ? 'positive' : flow.change_7d < 0 ? 'negative' : ''}>
+                      {flow.change_7d === 0 ? '—' : `${flow.change_7d > 0 ? '+' : ''}${(flow.change_7d / 1_000_000).toFixed(1)}M`}
+                    </strong>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article className="panel wide-panel">
+          <div className="panel-header">
+            <div>
+              <span className="panel-label">05 / MARKET</span>
               <h2>Market Data</h2>
             </div>
             <span className="panel-status">LIVE</span>
@@ -337,13 +371,13 @@ function App() {
               <span>KAS Price</span>
               <strong>{formatPrice(price?.price_usd)}</strong>
             </div>
-            {price?.market_cap_usd && price.market_cap_usd > 1000 && (
+            {price?.market_cap_usd !== undefined && price.market_cap_usd > 1000 && (
               <div className="data-row">
                 <span>Market Cap</span>
                 <strong>${formatNumber(price.market_cap_usd, 0)}</strong>
               </div>
             )}
-            {price?.volume_24h_usd && price.volume_24h_usd > 1000 && (
+            {price?.volume_24h_usd !== undefined && price.volume_24h_usd > 1000 && (
               <div className="data-row">
                 <span>24h Volume</span>
                 <strong>${formatNumber(price.volume_24h_usd, 0)}</strong>
@@ -351,9 +385,9 @@ function App() {
             )}
             <div className="data-row">
               <span>24h Change</span>
-              <strong className={(price?.change_24h ?? 0) >= 0 ? 'positive' : ''}>
-                {price?.change_24h !== undefined
-                  ? `${price.change_24h >= 0 ? '+' : ''}${formatNumber(price.change_24h)}%`
+              <strong className={(price?.change_24h ?? 0) > 0 ? 'positive' : (price?.change_24h ?? 0) < 0 ? 'negative' : ''}>
+                {price?.change_24h && price.change_24h !== 0
+                  ? `${price.change_24h > 0 ? '+' : ''}${formatNumber(price.change_24h)}%`
                   : '—'}
               </strong>
             </div>

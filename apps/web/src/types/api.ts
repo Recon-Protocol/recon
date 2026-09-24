@@ -51,14 +51,33 @@ export interface Analytics extends ApiMeta {
   days_to_reduction: number
 }
 
+export interface ExchangeFlow {
+  name: string
+  balance_kas: number
+  change_24h: number
+  change_7d: number
+  change_30d: number
+}
+
 export interface Report extends ApiMeta {
+  report_number: string
+  date: string
+  calendar_week: string
   network: string
   hashrate: string
+  daa_score: string
   circulating_supply: string
   percent_mined: string
   block_reward: string
   next_reduction: string
   network_status: string
+  exchange_flows: ExchangeFlow[]
+  tps: string
+  bps: string
+  nodes: string
+  miner_count: string
+  pool_revenue: string
+  l2_activity: string
 }
 
 export interface Intelligence extends ApiMeta {
