@@ -26,6 +26,7 @@ func New() http.Handler {
 	mux.HandleFunc("/api/v1/analytics", handlers.AnalyticsHandler)
 	mux.HandleFunc("/api/v1/report", handlers.ReportHandler)
 	mux.HandleFunc("/api/v1/intelligence", handlers.IntelligenceHandler)
+	mux.HandleFunc("/api/v1/blockdag", handlers.BlockDAGHandler)
 
 	return middleware.CORS(middleware.Logging(mux))
 }
