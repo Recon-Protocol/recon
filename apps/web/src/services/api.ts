@@ -1,5 +1,6 @@
 import type {
   Analytics,
+  BlockDAG,
   HashrateInfo,
   HealthResponse,
   Intelligence,
@@ -58,4 +59,8 @@ export function getReport(): Promise<Report> {
 
 export function getIntelligence(): Promise<Intelligence> {
   return fetchApi<Intelligence>('/intelligence')
+}
+
+export function getBlockDAG(): Promise<BlockDAG> {
+  return fetchApi<BlockDAG>('/blockdag')
 }

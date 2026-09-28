@@ -3,6 +3,7 @@ import './App.css'
 
 import {
   getAnalytics,
+  getBlockDAG,
   getHashrate,
   getHealth,
   getIntelligence,
@@ -14,6 +15,7 @@ import {
 
 import type {
   Analytics,
+  BlockDAG,
   HashrateInfo,
   HealthResponse,
   Intelligence,
@@ -55,6 +57,14 @@ function formatBlockReward(value: string | undefined): string {
   return num.toFixed(2) + ' KAS'
 }
 
+function timeAgo(timestamp: number): string {
+  const seconds = Math.floor(Date.now() / 1000 - timestamp)
+  if (seconds < 5) return 'just now'
+  if (seconds < 60) return `${seconds}s ago`
+  if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`
+  return `${Math.floor(seconds / 3600)}h ago`
+}
+
 function App() {
   const [health, setHealth] = useState<HealthResponse | null>(null)
   const [metrics, setMetrics] = useState<NetworkSnapshot | null>(null)
@@ -64,6 +74,7 @@ function App() {
   const [price, setPrice] = useState<PriceInfo | null>(null)
   const [report, setReport] = useState<Report | null>(null)
   const [intelligence, setIntelligence] = useState<Intelligence | null>(null)
+  const [blockdag, setBlockdag] = useState<BlockDAG | null>(null)
   const [loading, setLoading] = useState(true)
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -74,10 +85,10 @@ function App() {
       setError(null)
       const [
         healthData, metricsData, supplyData, analyticsData,
-        hashrateData, priceData, reportData, intelligenceData,
+        hashrateData, priceData, reportData, intelligenceData, blockdagData,
       ] = await Promise.all([
         getHealth(), getMetrics(), getSupply(), getAnalytics(),
-        getHashrate(), getPrice(), getReport(), getIntelligence(),
+        getHashrate(), getPrice(), getReport(), getIntelligence(), getBlockDAG(),
       ])
       setHealth(healthData)
       setMetrics(metricsData)
@@ -87,6 +98,7 @@ function App() {
       setPrice(priceData)
       setReport(reportData)
       setIntelligence(intelligenceData)
+      setBlockdag(blockdagData)
       setLastUpdated(new Date())
     } catch (err) {
       console.error(err)
@@ -391,6 +403,31 @@ function App() {
                   : '—'}
               </strong>
             </div>
+          </div>
+        </article>
+
+        <article className="panel wide-panel">
+          <div className="panel-header">
+            <div>
+              <span className="panel-label">06 / BLOCKDAG</span>
+              <h2>Live Block Tips</h2>
+            </div>
+            <span className="panel-status">LIVE</span>
+          </div>
+          <div className="blockdag-grid">
+            {(blockdag?.tips ?? []).map((tip, index) => (
+              <div className={`block-tip ${tip.is_blue ? 'block-blue' : 'block-red'}`} key={index}>
+                <div className="block-hash">{tip.hash}</div>
+                <div className="block-score">DAA {tip.blue_score.toLocaleString('en-US')}</div>
+                <div className="block-meta">
+                  <span>{tip.tx_count} txs</span>
+                  <span>{timeAgo(tip.timestamp)}</span>
+                  <span className={tip.is_blue ? 'positive' : 'negative'}>
+                    {tip.is_blue ? '● BLUE' : '● RED'}
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
         </article>
 

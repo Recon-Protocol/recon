@@ -86,3 +86,17 @@ export interface Intelligence extends ApiMeta {
   trend: string
   signals: string[]
 }
+
+export interface BlockTip {
+  hash: string
+  blue_score: number
+  timestamp: number
+  tx_count: number
+  is_blue: boolean
+}
+
+export interface BlockDAG extends ApiMeta {
+  tips: BlockTip[]
+  tip_count: number
+  virtual_daa_score: number
+}
